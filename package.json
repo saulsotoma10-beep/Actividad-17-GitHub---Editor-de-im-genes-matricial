@@ -1,0 +1,50 @@
+{
+  "name": "editor-imagenes-matricial",
+  "version": "1.0.0",
+  "description": "Proyecto educativo de álgebra lineal aplicada al procesamiento de imágenes mediante operaciones matriciales",
+  "main": "src/ejercicios.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JorgeTSW/editor-imagenes-matricial.git"
+  },
+  "keywords": [
+    "matrices",
+    "algebra-lineal",
+    "procesamiento-imagenes",
+    "educacion",
+    "javascript",
+    "png",
+	"Fundamentos-Algebra"
+  ],
+  "author": "Tecnológico de Software - Jorge J. Pedrozo Romero",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JorgeTSW/editor-imagenes-matricial/issues"
+  },
+  "homepage": "https://github.com/JorgeTSW/editor-imagenes-matricial#readme",
+  "dependencies": {
+    "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true,
+    "collectCoverage": false,
+    "coverageDirectory": "coverage",
+    "testMatch": [
+      "**/src/**/*.test.js"
+    ],
+	"coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/src/utilidades.js",
+      "/src/matriz.js"
+    ]
+  }
+}

@@ -1,0 +1,89 @@
+name: 🎓 Calificación Automática - Editor de Imágenes Matricial
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout del código
+      uses: actions/checkout@v3
+      
+    - name: 🔧 Configurar Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: 📦 Instalar dependencias
+      run: npm install
+      
+    - name: 🎨 Generar imágenes de prueba
+      run: npm run generar-imagenes
+      continue-on-error: true
+      
+    - name: 🧪 Ejecutar tests
+      run: npm test
+      
+    - name: 📊 Generar reporte de cobertura
+      run: npm run test:coverage
+      continue-on-error: true
+      
+    - name: 📸 Guardar imágenes generadas
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: imagenes-generadas
+        path: imagenes/salida/
+        retention-days: 30
+        
+    - name: 📈 Mostrar estadísticas
+      if: always()
+      run: |
+        echo "=================================="
+        echo "✅ Tests completados"
+        echo "=================================="
+        echo ""
+        echo "📁 Revisa la pestaña 'Actions' para ver tu calificación"
+        echo "🎯 Los resultados aparecen arriba en 'Ejecutar tests'"
+        echo "🖼️  Las imágenes generadas están disponibles en 'Artifacts'"
+        echo ""
+        
+    - name: 🎉 ¡Éxito!
+      if: success()
+      run: |
+        echo "=================================="
+        echo "🎉 ¡Felicidades!"
+        echo "=================================="
+        echo "✅ Todos los tests pasaron correctamente"
+        echo "📊 Tu código está listo para ser calificado"
+        echo ""
+        echo "💡 Tips:"
+        echo "   - Revisa los logs arriba para ver tu puntuación"
+        echo "   - Las imágenes generadas están en imagenes/salida/"
+        echo "   - Puedes ejecutar 'npm test' localmente para ver resultados"
+        echo ""
+        
+    - name: ⚠️ Algunos tests fallaron
+      if: failure()
+      run: |
+        echo "=================================="
+        echo "⚠️ Atención"
+        echo "=================================="
+        echo "❌ Algunos tests no pasaron"
+        echo ""
+        echo "💡 Qué hacer:"
+        echo "   1. Revisa los errores arriba en rojo"
+        echo "   2. Lee el mensaje de error de cada test"
+        echo "   3. Corrige tu código en src/ejercicios.js"
+        echo "   4. Haz commit y push de nuevo"
+        echo ""
+        echo "🔧 Para debuggear localmente:"
+        echo "   npm install"
+        echo "   npm test"
+        echo ""
